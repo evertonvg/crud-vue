@@ -1,11 +1,5 @@
 <template>
   <main>
-    <transition name="slide" mode="out-in">
-      <div class="alert alert-warning" v-show="message != ''">
-        {{ message }}
-      </div>
-    </transition>
-
     <h1>Insira seus dados</h1>
     <form action="">
       <div class="forminput">
@@ -104,15 +98,15 @@ export default {
         this.email = ''
         this.senha = ''
         this.senharepeat = ''
-        this.message = message
+        this.$store.state.message = message
         setInterval(()=>{
-          this.message = ''
+          this.$store.state.message = ''
         },5000)
       },
       cadastrar(el){
         el.preventDefault()
         this.buttonlogin = 'Cadastrando...'
-        this.message = 'Cadastrando...'
+        this.$store.state.message = 'Cadastrando...'
         axios.post('http://crud.test/api/novouser',
         {
           nome:this.nome,

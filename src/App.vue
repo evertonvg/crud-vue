@@ -1,13 +1,22 @@
 <template>
-  <transition name="slide" mode="out-in" id="app">
-    <router-view></router-view>
-  </transition>
+  <div>
+    <nav class="menu"></nav>
+    <!-- <transition name="slide" mode="out-in"> -->
+    <div class="alert alert-warning" v-if="this.$store.state.message != ''">
+      {{ this.$store.state.message }}
+    </div>
+    <!-- </transition> -->
+    <transition name="slide" mode="out-in" id="app">
+      <router-view></router-view>
+    </transition>
+  </div>
 </template>
 
 <script>
 
-export default {
-  name: 'App'
+
+export default { 
+  name: 'App',
 }
 </script>
 
@@ -49,8 +58,9 @@ export default {
   .alert{
     position: fixed;
     top: 200px;
+    left: 50%;
+    transform: translateX(-50%);
     padding: .75rem 1.25rem;
-    margin-bottom: 1rem;
     border-radius: .25rem;
     z-index: 1;
   }
@@ -111,6 +121,16 @@ export default {
     z-index: 1;
     font-size: 10px;
     transition: 0.3s ease all;
+  }
+
+  .menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 70px;
+    background-color: cadetblue;
+    box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
   }
           
 </style>

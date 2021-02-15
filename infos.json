@@ -1,0 +1,52 @@
+{
+    "meta": {
+        "lang": "pt-BR"
+    },
+    "src":{
+        "mainPic": "img/crudblog.a4314252.png",
+        "alternate" : "logo"
+    },
+    "defaultMessages":{
+        "login": "Login",
+        "logon" : "Entrando...",
+        "loginFail" : "Usuário ou senha inválidos!"
+    },
+    "pages":{
+        "login": {
+            "nameComponent":"login",
+            "title" : "CRUD - Login",
+            "meta":[
+                {
+                    "name": "description",
+                    "content": "Tela de Login"
+                },
+                {
+                    "name": "keywords",
+                    "content": "Crud, Vue, Laravel"
+                }
+            ],
+            "form" : {
+                "email":{
+                    "label": "Email:",
+                    "placeholder" : "Email",
+                    "type": "email",
+                    "id": "email"
+                },
+                "password": {
+                    "label": "Senha:",
+                    "placeholder" : "Senha",
+                    "type": "password",
+                    "id": "senha"
+                },
+                "tooltip" : "Insira um email válido e uma senha com no minímo 8 caracteres para habilitar o botão"
+            },
+            "buttons":{
+                "forget": "Esqueci minha senha",
+                "newUser": "Cadastrar"
+            }
+        },
+        "home": {
+            "title" : "CRUD - Inicio"
+        }
+    }
+}

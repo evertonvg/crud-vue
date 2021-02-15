@@ -1,11 +1,5 @@
 <template>
   <main>
-    <transition name="slide" mode="out-in">
-      <div class="alert alert-warning" v-show="message != ''">
-        {{ message }}
-      </div>
-    </transition>
-
     <h1>Insira seu email</h1>
     <form action="">
       <div class="forminput">
@@ -65,7 +59,7 @@ export default {
       login(el){
         el.preventDefault()
         this.buttonlogin = 'Entrando...'
-        this.message = 'Entrando...'
+        this.$store.state.message = 'Entrando...'
         axios.post('http://crud.test/api/login',
         {
           email:this.email,
@@ -84,9 +78,9 @@ export default {
             this.buttonlogin = 'Login'
             this.email = ''
             this.senha = ''
-            this.message = 'Usuário ou senha inválidos'
+            this.$store.state.message = 'Usuário ou senha inválidos'
             setInterval(()=>{
-              this.message = ''
+              this.$store.state.message = ''
             },5000)
           }else{
             localStorage.setItem('login','true')

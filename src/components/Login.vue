@@ -1,20 +1,24 @@
 <template>
   <main>
-    <transition name="slide" mode="out-in">
-      <div class="alert alert-warning" v-show="message != ''">
-        {{ message }}
-      </div>
-    </transition>
-
-    <img src="../assets/images/crudblog.png" alt="Logo" />
+    <img :src="json.src.mainPic" :alt="json.src.alternate" />
     <form action="">
       <div class="forminput">
-        <label for="email">Email:</label>
-        <input type="email" id="email" v-model="email" placeholder="Email" />
+        <label for="email">{{ json.pages.login.form.email.label }}</label>
+        <input
+          type="email"
+          id="email"
+          v-model="email"
+          :placeholder="json.pages.login.form.email.placeholder"
+        />
       </div>
       <div class="forminput">
-        <label for="Senha">Senha:</label>
-        <input type="password" id="senha" v-model="senha" placeholder="Senha" />
+        <label for="Senha">{{ json.pages.login.form.password.label }}</label>
+        <input
+          type="password"
+          id="senha"
+          v-model="senha"
+          :placeholder="json.pages.login.form.password.placeholder"
+        />
       </div>
       <div class="forminput">
         <input
@@ -25,57 +29,59 @@
           "
           @click="login"
         />
-        <span class="tooltiptext"
-          >Insira um email válido e uma senha com no minímo 8 caracteres para
-          habilitar o botão</span
-        >
+        <span class="tooltiptext">
+          {{ json.pages.login.form.tooltip }}
+        </span>
       </div>
     </form>
     <div class="cadsenha">
-      <router-link to="/novo-usuario" title="cadastro" class="default-button"
-        >Cadastrar</router-link
-      >
-      <router-link to="/recuperar-senha" title="cadastro" class="default-button"
-        >Esqueci minha senha</router-link
+      <router-link to="/novo-usuario" title="cadastro" class="default-button">{{
+        json.pages.login.buttons.newUser
+      }}</router-link>
+      <router-link
+        to="/recuperar-senha"
+        title="cadastro"
+        class="default-button"
+        >{{ json.pages.login.buttons.forget }}</router-link
       >
     </div>
   </main>
 </template>
 <script>
 import axios from 'axios';
-
+import infos from './../../infos.json';
 export default {
-    name: 'login',
+    name: infos.pages.login.nameComponent,
     metaInfo: {
         htmlAttrs: {
-        lang: 'pt-BR',
+        lang: infos.meta.lang,
         },
-        title: 'CRUD - Login',
-        meta: [{ name: 'descrition', content: 'Tela de Login.' }],
+        title: infos.pages.login.title,
+        meta: infos.pages.login.meta,
     },
      data(){
         return{
           regex:/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/,
           email: '',
           senha: '',
-          message: '',
-          buttonlogin: 'Login'
+          buttonlogin: infos.defaultMessages.login,
+          json: infos,
         }
     },
     methods:{
       resetmethod(message){
-        this.buttonlogin = 'Login'
+        this.buttonlogin = infos.defaultMessages.login
         this.email = ''
         this.senha = ''
-        this.message = message
+        this.$store.state.message = message
         setInterval(()=>{
-          this.message = ''
+          this.$store.state.message = ''
         },5000)
       },
       login(el){
         el.preventDefault()
-        this.buttonlogin = 'Entrando...'
-        this.message = 'Entrando...'
+        this.buttonlogin = this.json.defaultMessages.logon
+        this.$store.state.message = this.json.defaultMessages.logon
         axios.post('http://crud.test/api/login',
         {
           email:this.email,
@@ -90,24 +96,14 @@ export default {
         }
         )
         .then((resp)=>{
-          // if(resp.data=='Usuário ou senha inválidos'){
-          //   this.resetmethod('Usuário ou senha inválidos')
-          // }else{
-          //   if(resp.data.email_verified_at==null){
-          //     this.resetmethod('Por favor válide seu email')
-          //   }else{
-              localStorage.setItem('login','true')
-              localStorage.setItem('name',resp.data.name)
-              localStorage.setItem('token',resp.data.access_token)
-              this.$router.push('/home')
-          //   }
-            
-          // }
-
+            localStorage.setItem('login','true')
+            localStorage.setItem('name',resp.data.name)
+            localStorage.setItem('token',resp.data.access_token)
+            this.$router.push('/home')
         })
           
         .catch(() => {
-          this.resetmethod('Usuário ou senha inválidos!')          
+          this.resetmethod(this.json.defaultMessages.loginFail)          
         })
       }
     },

@@ -1,16 +1,13 @@
 <template>
   <div>
-    <transition name="slide" mode="out-in">
-      <div class="alert alert-warning" v-show="message != ''">
-        {{ message }}
-      </div>
-    </transition>
     <h1>Home</h1>
     <button @click="logout">logout</button>
   </div>
 </template>
 <script>
 import axios from 'axios';
+import infos from './../../infos.json';
+
 export default {
     name:'home',
      metaInfo: {
@@ -22,7 +19,7 @@ export default {
     },
      data(){
         return{
-          message: '',
+          json: infos,
         }
     },
     methods:{
@@ -38,10 +35,10 @@ export default {
     },
     created(){
         if(localStorage.getItem('name')!=null){
-            this.message = `Bem vindo ${localStorage.getItem('name')}`
+            this.$store.state.message = `Bem vindo ${localStorage.getItem('name')}`
             localStorage.removeItem('name')
             setTimeout(()=>{
-                this.message = ''
+                this.$store.state.message = ''
             },5000)
         }
     }
